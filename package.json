@@ -17,8 +17,17 @@
     "plop": "plop"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@fontsource/roboto": "^5.0.4",
+    "@mui/icons-material": "^5.13.7",
+    "@mui/material": "^5.13.7",
+    "@mui/x-data-grid": "^6.9.1",
+    "@mui/x-date-pickers": "^6.9.1",
     "@netlify/plugin-gatsby": "^3.6.2",
+    "axios": "^1.4.0",
     "cypress": "^10.0.3",
+    "dayjs": "^1.11.9",
     "gatsby": "^4.5.4",
     "gatsby-plugin-manifest": "^4.14.0",
     "react": "^18.0.0",

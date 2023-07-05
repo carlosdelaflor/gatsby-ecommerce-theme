@@ -1,147 +1,155 @@
 import * as React from 'react';
+import { Autocomplete, Box, Button, Grid, TextField } from "@mui/material";
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
+import dayjs from 'dayjs';
+import axios from 'axios';
 
-import AttributeGrid from '../components/AttributeGrid';
-import Container from '../components/Container';
-import Hero from '../components/Hero';
-import BlogPreviewGrid from '../components/BlogPreviewGrid';
-import Highlight from '../components/Highlight';
-import Layout from '../components/Layout/Layout';
-import ProductCollectionGrid from '../components/ProductCollectionGrid';
-import ProductCardGrid from '../components/ProductCardGrid';
-import Quote from '../components/Quote';
-import Title from '../components/Title';
+const mockServerURL = "https://a9fcd5e5-073a-4af9-aa57-b5ed72cf0bb6.mock.pstmn.io/";
+const axiosMockServerclient = axios.create({
+    baseURL: mockServerURL 
+  });
 
-import { generateMockBlogData, generateMockProductData } from '../helpers/mock';
+const AUCTION_LOCATIONS = [
+    { label: 'Auto Auction', zip: 1592 , value: '1592 - Z66 Auto Auction'},
+    { label: 'Honda Auction', zip: 1765 , value: '1765 - P56 Honda Auction'},
+];
 
-import * as styles from './index.module.css';
-import { Link, navigate } from 'gatsby';
-
-const IndexPage = () => {
-  const newArrivals = generateMockProductData(3, 'shirt');
-  const blogData = generateMockBlogData(3);
-
-  const goToShop = () => {
-    navigate('/shop');
-  };
-
-  return (
-    <Layout disablePaddingBottom>
-      {/* Hero Container */}
-      <Hero
-        maxWidth={'500px'}
-        image={'/banner1.png'}
-        title={'Essentials for a cold winter'}
-        subtitle={'Discover Autumn Winter 2021'}
-        ctaText={'shop now'}
-        ctaAction={goToShop}
-      />
-
-      {/* Message Container */}
-      <div className={styles.messageContainer}>
-        <p>
-          This is a demonstration of the Sydney theme for verse by{' '}
-          <span className={styles.gold}>matter design.</span>
-        </p>
-        <p>
-          wear by <span className={styles.gold}>sunspel</span> and{' '}
-          <span className={styles.gold}>scotch&soda</span>
-        </p>
-      </div>
-
-      {/* Collection Container */}
-      <div className={styles.collectionContainer}>
-        <Container size={'large'}>
-          <Title name={'New Collection'} />
-          <ProductCollectionGrid />
-        </Container>
-      </div>
-
-      {/* New Arrivals */}
-      <div className={styles.newArrivalsContainer}>
-        <Container>
-          <Title name={'New Arrivals'} link={'/shop'} textLink={'view all'} />
-          <ProductCardGrid
-            spacing={true}
-            showSlider
-            height={480}
-            columns={3}
-            data={newArrivals}
-          />
-        </Container>
-      </div>
-
-      {/* Highlight  */}
-      <div className={styles.highlightContainer}>
-        <Container size={'large'} fullMobile>
-          <Highlight
-            image={'/highlight.png'}
-            altImage={'highlight image'}
-            miniImage={'/highlightmin.png'}
-            miniImageAlt={'mini highlight image'}
-            title={'Luxury Knitwear'}
-            description={`This soft lambswool jumper is knitted in Scotland, using yarn from one of the world's oldest spinners based in Fife`}
-            textLink={'shop now'}
-            link={'/shop'}
-          />
-        </Container>
-      </div>
-
-      {/* Promotion */}
-      <div className={styles.promotionContainer}>
-        <Hero image={'/banner2.png'} title={`-50% off \n All Essentials`} />
-        <div className={styles.linkContainers}>
-          <Link to={'/shop'}>WOMAN</Link>
-          <Link to={'/shop'}>MAN</Link>
-        </div>
-      </div>
-
-      {/* Quote */}
-      <Quote
-        bgColor={'var(--standard-light-grey)'}
-        title={'about Sydney'}
-        quote={
-          '“We believe in two things: the pursuit of quality in everything we do, and looking after one another. Everything else should take care of itself.”'
+const AuctionSelect = (props) => {
+    return (
+      <Autocomplete
+        value={props.value}
+        onChange={(event, newValue) => {
+            props.setValue(newValue);
+        }}
+        inputValue={props.inputValue}
+        onInputChange={(event, newInputValue) => {
+            props.setInputValue(newInputValue);
+        }}
+        disablePortal
+        id="aunction-input"
+        options={AUCTION_LOCATIONS}
+        sx={{ width: "95%" }}
+        placeholder = "Search by Auction Location"
+        renderInput={(params) => 
+            <TextField {...params}                             
+            label="Search by Auction Location" />
         }
       />
+    );
+  }
 
-      {/* Blog Grid */}
-      <div className={styles.blogsContainer}>
-        <Container size={'large'}>
-          <Title name={'Journal'} subtitle={'Notes on life and style'} />
-          <BlogPreviewGrid data={blogData} />
-        </Container>
-      </div>
 
-      {/* Promotion */}
-      <div className={styles.sustainableContainer}>
-        <Hero
-          image={'/banner3.png'}
-          title={'We are Sustainable'}
-          subtitle={
-            'From caring for our land to supporting our people, discover the steps we’re taking to do more for the world around us.'
-          }
-          ctaText={'read more'}
-          maxWidth={'660px'}
-          ctaStyle={styles.ctaCustomButton}
-        />
-      </div>
+const SearchPanelCriteria = (props) => {
+    const [vinValue, setVinValue] = React.useState('');
+    const [dealerValue, setDealerValue] = React.useState('');
+    const [auctionValue, setAuctionValue] = React.useState(undefined);
+    const [auctionInputValue, setAuctionInputValue] = React.useState('');
+    const [salesDate, setSalesDate] = React.useState(null);
 
-      {/* Social Media */}
-      <div className={styles.socialContainer}>
-        <Title
-          name={'Styled by You'}
-          subtitle={'Tag @sydney to be featured.'}
-        />
-        <div className={styles.socialContentGrid}>
-          <img src={`/social/socialMedia1.png`} alt={'social media 1'} />
-          <img src={`/social/socialMedia2.png`} alt={'social media 2'} />
-          <img src={`/social/socialMedia3.png`} alt={'social media 3'} />
-          <img src={`/social/socialMedia4.png`} alt={'social media 4'} />
-        </div>
-      </div>
-      <AttributeGrid />
-    </Layout>
-  );
-};
+    const onClear = () => {
+        setVinValue('');
+        setDealerValue('');
+        setAuctionValue(undefined);
+        setAuctionInputValue('');
+        setSalesDate('');
+        setSalesDate(null);
+    }
 
-export default IndexPage;
+    const onSearch = () => {
+        axiosMockServerclient.get('sales-transactions/', {
+            params: {
+            }
+          })
+          .then(respose => {
+             const results = respose.data.data;
+             props.onSearch(results);
+          })
+    }
+
+    return (
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <Box sx={{ flexGrow: 1 }}>
+                <Grid container spacing={1}>
+                    <Grid item xs={10} sm={2}>
+                        <TextField sx={{width: "95%"}} 
+                            value={vinValue} 
+                            onChange={(changeEvent) => setVinValue(changeEvent.target.value)}
+                            id="vin_input" 
+                            label="Search by VIN" 
+                            variant="outlined"
+                            placeholder="Search by VIN" />
+                    </Grid>
+                    <Grid item xs={10} sm={2}>
+                        <TextField sx={{width: "95%"}} 
+                            value={dealerValue} 
+                            onChange={(changeEvent) => setDealerValue(changeEvent.target.value)}
+                            id="dealer_input" 
+                            label="Search by Dealer Number" 
+                            variant="outlined" 
+                            placeholder="Search by Dealer Number"/>
+                    </Grid>
+                    <Grid item xs={10} sm={2}>
+                        <AuctionSelect 
+                            value={auctionValue}
+                            setValue={setAuctionValue}
+                            inputValue={auctionInputValue}
+                            setInputValue={setAuctionInputValue}/>
+                    </Grid>
+                    <Grid item xs={10} sm={2}>
+                        <DatePicker 
+                        sx={{width: "95%"}}
+                        id="dealer_input" 
+                        label="Search by Sale Date"
+                        value={salesDate}
+                        onChange={(newDateValue) => setSalesDate(newDateValue)}/>
+                    </Grid>
+                    <Grid item xs={3} sm={1} 
+                        sx={{ display:'flex', justifyContent: 'center', alignItems: 'center'}}>
+                        <Button onClick={onSearch} variant="contained">Search</Button>
+                    </Grid>
+                    <Grid item xs={3} sm={1} 
+                        sx={{ display:'flex', justifyContent: 'center', alignItems: 'center'}}>
+                        <Button onClick={onClear} variant="outlined">Clear</Button>
+                    </Grid>
+                </Grid>
+        </Box>
+      </LocalizationProvider>
+    );
+}
+
+const SearchResults = (props) => {
+    const columns = [
+        { field: 'vin', headerName: 'VIN', width: 150 },
+        { field: 'vehicle', headerName: 'Vehicle', width: 250 },
+        { field: 'auction', headerName: 'Auction Location', width: 250 },
+        { field: 'salesDate', headerName: 'Sales Date', width: 100 },
+        { field: 'buyer', headerName: 'Buyer Name', width: 250 },
+        { field: 'seller', headerName: 'Seller Name', width: 250 },
+      ];
+
+    return ((props.results && props.results.length>0) && 
+            <div style={{ height: 400, width: '100%', marginTop: '20px' }}>
+                <DataGrid rows={props.results} columns={columns} />
+            </div>
+            );
+}
+
+const SearchPanel = (props) => {
+    const [searchResults, setSearchResults] = React.useState([]);
+    const onSearch = (resuts) => {
+        setSearchResults(resuts);
+    }
+    return (
+        <Box>
+            <SearchPanelCriteria onSearch={onSearch}></SearchPanelCriteria>
+            {(searchResults && searchResults.length > 0) && 
+              <SearchResults results={searchResults}/> }
+        </Box>
+
+    );
+}
+
+export default SearchPanel;
