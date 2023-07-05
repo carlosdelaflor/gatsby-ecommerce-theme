@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { Autocomplete, Box, Button, Grid, TextField } from "@mui/material";
+import { Autocomplete, Box, Button, Drawer, Grid, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { makeStyles } from '@mui/styles';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
+import { DataGrid, GridRowsProp, GridColDef, GridCloseIcon } from '@mui/x-data-grid';
 import dayjs from 'dayjs';
 import axios from 'axios';
 
@@ -16,6 +17,120 @@ const AUCTION_LOCATIONS = [
     { label: 'Auto Auction', zip: 1592 , value: '1592 - Z66 Auto Auction'},
     { label: 'Honda Auction', zip: 1765 , value: '1765 - P56 Honda Auction'},
 ];
+
+const useTableStyles = makeStyles({
+    table: {
+      width: 400,
+      /*"& .MuiTableCell-root": {
+        border: '1px solid black'
+      }*/
+    }
+  });
+
+const DetailInfoGrid = (props) => {
+    const rows = [];
+    Object.entries(props.data).forEach(([key, value]) => {
+        rows.push({'id': key+value,'key': key, 'value': value});
+    });
+
+    const columns = [
+        { field: 'key', headerName: 'Attribute', width: 200, headerClassName: 'detail-table-header' },
+        { field: 'value', headerName: 'Value', width: 250, headerClassName: 'detail-table-header'},
+      ];
+
+    return (
+        <Box 
+            sx={{
+            marginTop: '10px',
+            '& .detail-table-header': {
+              color: '#fff',
+              backgroundColor: '#1976d2',
+            },
+          }}>
+            <Box sx={{
+                width: '100%',
+                marginBottom: '15px',
+                marginLeft: '10px'
+            }}>
+                <Typography container='h3' fontWeight={'bold'}>{props.title}</Typography>
+            </Box>
+            <DataGrid 
+                hideFooterRowCount={true}
+                hideFooter={true}
+                hideFooterPagination={true}
+                rows={rows} 
+                columns={columns} 
+                rowHeight={30}/>
+        </Box>
+    )
+}
+
+const DetailInfoTable = (props) => {
+    const classes = useTableStyles();
+    const rows = [];
+    Object.entries(props.data).forEach(([key, value]) => {
+        rows.push({'key': key, 'value': value});
+    });
+
+    return (
+            <TableContainer border={1}>
+            <Table className={classes.table} aria-label="simple table">
+            <TableHead>
+                    <TableRow>
+                        <TableCell>Attribute</TableCell>
+                        <TableCell>Value</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {rows.map((row) => (
+                        <TableRow
+                            key={row.key}
+                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            >
+                        <TableCell align="right">{row.key}</TableCell>
+                        <TableCell align="right">{row.value}</TableCell>
+                        </TableRow>
+                    ))}               
+                </TableBody>
+                </Table>
+            </TableContainer>
+    );
+}
+
+const VehicleDetail = (props) => {
+    const paymentInfo = props.details.paymentInfo;
+    const arbitrationInfo = props.details.arbitrationInfo;
+    const feeInfo = props.details.feeInfo;
+    const titleInfo = props.details.titleInfo;
+    const salesInfo = props.details.salesInfo;
+    return (
+        <Grid container spacing={2}>
+            <Grid item xs={12}>
+                <Box display={'flex'} justifyContent={'space-between'} marginTop={'10px'}>
+                    <Typography sx={{marginLeft: '10px'}} container='h3' fontWeight={'bold'}>Vehicle Details</Typography>
+                    <IconButton aria-label="delete" onClick={props.onClose}>
+                        <GridCloseIcon  />
+                    </IconButton>
+                </Box>
+            </Grid>
+            <Grid item xs={10} sm={5} md={4}>
+                <DetailInfoGrid title={'Payment Information'} data={paymentInfo} />
+            </Grid>
+            <Grid item xs={10} sm={5} md={4}>
+                <DetailInfoGrid title={'Arbitration Information'} data={arbitrationInfo} />
+            </Grid>
+            <Grid item xs={10} sm={5} md={4}>
+                <DetailInfoGrid title={'Fee Details'} data={feeInfo} />
+            </Grid>
+            <Grid item xs={10} sm={5} md={4}>
+                <DetailInfoGrid title={'Title Information'} data={titleInfo} />
+            </Grid>
+            <Grid item xs={10} sm={5} md={4}>
+                <DetailInfoGrid title={'Sale Information'} data={salesInfo} />
+            </Grid>
+        </Grid>
+    );
+}
 
 const AuctionSelect = (props) => {
     return (
@@ -56,6 +171,7 @@ const SearchPanelCriteria = (props) => {
         setAuctionInputValue('');
         setSalesDate('');
         setSalesDate(null);
+        props.onClear();
     }
 
     const onSearch = () => {
@@ -132,23 +248,50 @@ const SearchResults = (props) => {
 
     return ((props.results && props.results.length>0) && 
             <div style={{ height: 400, width: '100%', marginTop: '20px' }}>
-                <DataGrid rows={props.results} columns={columns} />
+                <DataGrid 
+                    rows={props.results} 
+                    columns={columns}
+                    onRowClick={props.onRowClick} />
             </div>
             );
 }
 
 const SearchPanel = (props) => {
+    const [openDrawer, setOpenDrawer] = React.useState(false);
     const [searchResults, setSearchResults] = React.useState([]);
+    const [searchDetails, setSearchDetails] = React.useState(null);
+
     const onSearch = (resuts) => {
         setSearchResults(resuts);
     }
+    const onRowClicked = (params, event) => {
+        const rowId = params.row.id;
+        axiosMockServerclient.get('transactions/'+ params.row.id, {
+            params: {
+            }
+          })
+          .then(response => {
+             const details = response.data.details;
+             setSearchDetails(details);
+             setOpenDrawer(true);
+          })
+        
+      }
     return (
         <Box>
-            <SearchPanelCriteria onSearch={onSearch}></SearchPanelCriteria>
+            <SearchPanelCriteria 
+                onSearch={onSearch} 
+                onClear={()=>{setSearchResults([])}}>
+            </SearchPanelCriteria>
             {(searchResults && searchResults.length > 0) && 
-              <SearchResults results={searchResults}/> }
+            <SearchResults onRowClick={onRowClicked} results={searchResults}/> }
+            <Drawer
+                anchor={'bottom'}
+                open={openDrawer}
+                onClose={()=>{setOpenDrawer(false); setSearchDetails(null);}}>
+                {searchDetails && <VehicleDetail details={searchDetails} onClose={()=>setOpenDrawer(false)}/>}
+            </Drawer>
         </Box>
-
     );
 }
 
