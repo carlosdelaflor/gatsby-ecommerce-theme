@@ -45,11 +45,11 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const TablaCuentas = () =>{
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+      <Table  aria-label="customized table">
         <TableHead>
           <TableRow>
             <StyledTableCell align="center">TIPO Y NÚMERO DE CUENTA</StyledTableCell>
-            <StyledTableCell align="center">SALDO CONTABLE</StyledTableCell>
+            <StyledTableCell align="center" sx={{ display: { xs: 'none', sm: 'table-cell' }}}>SALDO CONTABLE</StyledTableCell>
             <StyledTableCell align="center">SALDO DISPONIBLE</StyledTableCell>
           </TableRow>
         </TableHead>
@@ -61,7 +61,7 @@ const TablaCuentas = () =>{
                   <Typography>Cuenta Independencia</Typography>
                 </Stack>
               </StyledTableCell>
-              <StyledTableCell align="right">S/. 250.00</StyledTableCell>
+              <StyledTableCell align="right" sx={{ display: { xs: 'none', sm: 'table-cell' }}}>S/. 250.00</StyledTableCell>
               <StyledTableCell align="right">S/. 250.00</StyledTableCell>
             </StyledTableRow>
             <StyledTableRow key={'cu-02'}>
@@ -71,7 +71,7 @@ const TablaCuentas = () =>{
                   <Typography>Cuenta Ganadora</Typography>
                 </Stack>
               </StyledTableCell>
-              <StyledTableCell align="right">S/. 660.00</StyledTableCell>
+              <StyledTableCell align="right" sx={{ display: { xs: 'none', sm: 'table-cell' }}}>S/. 660.00</StyledTableCell>
               <StyledTableCell align="right">S/. 660.00</StyledTableCell>
             </StyledTableRow>
             <StyledTableRow key={'cu-03'}>
@@ -81,7 +81,7 @@ const TablaCuentas = () =>{
                   <Typography>Cuenta Indepencia</Typography>
                 </Stack>
               </StyledTableCell>
-              <StyledTableCell align="right">S/. 7880.00</StyledTableCell>
+              <StyledTableCell align="right" sx={{ display: { xs: 'none', sm: 'table-cell' }}}>S/. 7880.00</StyledTableCell>
               <StyledTableCell align="right">S/. 7880.00</StyledTableCell>
             </StyledTableRow>
         </TableBody>
