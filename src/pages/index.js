@@ -15,19 +15,23 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import { Stack } from '@mui/material';
 import BBVASvgImg from '../components/bbva/icons/bbvaIcon';
-import BBVAMainPage from '../components/bbva/mainPage';
+import BBVAMainPage from '../components/bbva/main/mainPage';
 
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import SavingsIcon from '@mui/icons-material/Savings';
+import OfferPage from '../components/bbva/offer/offerPage';
+import { bbvaPrimaryColor, drawerWidth } from '../components/bbva/constants';
 
-const drawerWidth = 240;
-const bbvaPrimaryColor = '#072146';
 
-
-function ResponsiveDrawer(props) {
+function BBVAResponsiveDrawer(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [currentPage, setCurrentPage] = React.useState('main');
+
+  const navigateTo = (path) => {
+    setCurrentPage(path);
+  }
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -65,22 +69,6 @@ function ResponsiveDrawer(props) {
           </ListItemButton>
         </ListItem>
       </List>
-      {/**
-      <Divider />
-      <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-       */
-      }
     </div>
   );
 
@@ -145,12 +133,13 @@ function ResponsiveDrawer(props) {
           {drawer}
         </Drawer>
       </Box>
-      <BBVAMainPage/>
+      {(currentPage === 'main') && <BBVAMainPage navigateTo={navigateTo}/>}
+      {(currentPage === 'ofertas') && <OfferPage navigateTo={navigateTo}/>}
     </Box>
   );
 }
 
-ResponsiveDrawer.propTypes = {
+BBVAResponsiveDrawer.propTypes = {
   /**
    * Injected by the documentation to work in an iframe.
    * You won't need it on your project.
@@ -158,5 +147,5 @@ ResponsiveDrawer.propTypes = {
   window: PropTypes.func,
 };
 
-export default ResponsiveDrawer;
+export default BBVAResponsiveDrawer;
 
