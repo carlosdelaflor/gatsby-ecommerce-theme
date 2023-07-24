@@ -44,7 +44,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const TablaCuentas = () =>{
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} >
       <Table  aria-label="customized table">
         <TableHead>
           <TableRow>
@@ -136,7 +136,7 @@ const CuentasSection = () => {
   };
 
   return (
-    <div>
+    <Box >
       <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
         <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
           <Typography>Cuentas</Typography>
@@ -145,7 +145,7 @@ const CuentasSection = () => {
           <TablaCuentas/>
         </AccordionDetails>
       </Accordion>
-    </div>
+    </Box>
   );
 }
 
@@ -165,11 +165,15 @@ const MenuAvatar = ({avatar, label}) => {
 
 const SimpleAvatarMenuBar = (sx) => {
     return (
-        <Stack direction="row" spacing={15}>
-          <MenuAvatar avatar={<CreditCardIcon sx={{ color: bbvaPrimaryColor }}/>} label={'Tarjetas'}/>
-          <MenuAvatar avatar={<MonetizationOnIcon sx={{ color: bbvaPrimaryColor }}/>} label={'Inversiones'}/>
-          <MenuAvatar avatar={<SavingsIcon sx={{ color: bbvaPrimaryColor }}/>} label={'Ahorros'}/>
-        </Stack>
+        <Box width={{xs:'280px', sm: '70%'}}>
+          <Stack direction="row" display={'flex'} justifyContent={'space-between'} >
+            <MenuAvatar avatar={<CreditCardIcon sx={{ color: bbvaPrimaryColor }}/>} label={'Tarjetas'}/>
+            <MenuAvatar avatar={<MonetizationOnIcon sx={{ color: bbvaPrimaryColor }}/>} label={'Inversiones'}/>
+            <MenuAvatar avatar={<SavingsIcon sx={{ color: bbvaPrimaryColor }}/>} label={'Ahorros'}/>
+          </Stack>
+
+        </Box>
+
     );
 }
 
@@ -208,18 +212,19 @@ const MainPage = () => {
             } }}
         >
         <Toolbar></Toolbar>
-        <Stack>
-          <Typography  variant='h6'color={'white'}>
-            Ingresos
-          </Typography>
-          <IngresosBorderLinearProgress variant="determinate" value={100} sx={{width:"450px", height:"18px"}}  />
-        </Stack>
-        <Stack paddingTop={'15px'}>
-          <Typography  variant='h6'color={'white'}>
-            Egresos
-          </Typography>
-          <EgresosBorderLinearProgress variant="determinate" value={100} sx={{width:"250px", height:"18px"}} />
-        </Stack>
+        <Box  width={'100%'} justifyContent={'center'} display={'flex'}>
+          <Stack>
+            <Typography  variant='h6'color={'white'}>
+              Ingresos
+            </Typography>
+            <IngresosBorderLinearProgress variant="determinate" value={100} sx={{width:"230px", height:"18px"}}  />
+            <Typography paddingTop={'15px'}  variant='h6'color={'white'}>
+              Egresos
+            </Typography>
+            <EgresosBorderLinearProgress variant="determinate" value={100} sx={{width:"160px", height:"18px"}} />
+          </Stack>
+        </Box>
+
         <Box paddingTop={'25px'} width={'100%'} justifyContent={'center'} display={'flex'}>
           <SimpleAvatarMenuBar />
         </Box>
