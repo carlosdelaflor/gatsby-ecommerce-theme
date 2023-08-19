@@ -2,7 +2,7 @@
 exports.onCreateWebpackConfig = (helper) => {
   const { stage, actions, getConfig } = helper;
   const config = getConfig();
-  console.log('stage >>>>>>>>> ' + stage);
+  
   // Added when pdf-react was added.
   if (stage === 'develop-html' || stage === 'build-html') {
     //pdf-react fix

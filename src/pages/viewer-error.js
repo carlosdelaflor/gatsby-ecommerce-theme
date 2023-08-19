@@ -13,7 +13,6 @@ import BBVASvgImg from '../components/bbva/icons/bbvaIcon';
 import { bbvaPrimaryColor, drawerWidth } from '../components/bbva/constants';
 import { AppBar, Divider, Grid, IconButton, Stack, Toolbar } from '@mui/material';
 import { Document, Page  } from "react-pdf/dist/esm/entry.webpack";
-/*import { Document  } from "react-pdf";*/
 import MenuIcon from '@mui/icons-material/Menu';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -45,6 +44,9 @@ const Puller = styled(Box)(({ theme }) => ({
 function SwipeableEdgeDrawer(props) {
   const { windowRef } = props;
   const [open, setOpen] = React.useState(false);
+  const [errorCount, setErrorCount] = React.useState(2);
+  const [loadedLastName, setLoadedLastName] = React.useState('Pardo');
+  const [loadedDni, setLoadedDni] = React.useState('4573883');
 
   // This is used only for the example
   const container = windowRef !== undefined ? () => windowRef().document.body : undefined;
@@ -97,7 +99,7 @@ function SwipeableEdgeDrawer(props) {
                 <Button variant="outlined" onClick={onAction} color="error">Rechazar</Button>
             </Stack >
             <Box display="flex" justifyContent="center">
-              <Document file={'/bbva/boleta_1.pdf'}>
+              <Document file={'/bbva/dni_demo.pdf'}>
                 <Page height="760" pageNumber={1}></Page>
               </Document>
             </Box>
@@ -125,7 +127,7 @@ function SwipeableEdgeDrawer(props) {
                 }}
                 >
                 <Puller />
-                <Typography sx={{ p: 2, color: 'text.secondary' }}>0 errores</Typography>
+                <Typography sx={{ p: 2, color: (errorCount!=0) ? 'red' : '' }}>{errorCount} error(es)</Typography>
                 </StyledBox>
                 <StyledBox
                 sx={{
@@ -161,7 +163,7 @@ function SwipeableEdgeDrawer(props) {
                             <Grid item xs={10} sm={5} marginTop="10px" marginBottom="10px">
                                 <TextField sx={{width: "95%"}} 
                                     id="vin_input" 
-                                    value="Carlos"
+                                    value="Juan"
                                     label="Nombre" 
                                     variant="outlined"
                                     disabled/>
@@ -177,16 +179,8 @@ function SwipeableEdgeDrawer(props) {
                             <Grid item xs={10} sm={5} marginTop="10px" marginBottom="10px">
                                 <TextField sx={{width: "95%"}} 
                                     id="dni_input" 
-                                    value="67890544"
+                                    value="47293094"
                                     label="DNI" 
-                                    variant="outlined" 
-                                    disabled/>
-                            </Grid>
-                            <Grid item xs={10} sm={5} marginTop="10px" marginBottom="10px">
-                                <TextField sx={{width: "95%"}} 
-                                    id="monto_input" 
-                                    value="S/. 4,500.00"
-                                    label="Monto Mensual" 
                                     variant="outlined" 
                                     disabled/>
                             </Grid>
@@ -199,7 +193,7 @@ function SwipeableEdgeDrawer(props) {
                             <Grid item xs={10} sm={5} marginTop="10px" marginBottom="10px">
                                 <TextField sx={{width: "95%"}} 
                                     id="vin_input_1" 
-                                    value="Carlos"
+                                    value="Juan"
                                     label="Nombre" 
                                     variant="outlined"
                                     disabled/>
@@ -207,26 +201,28 @@ function SwipeableEdgeDrawer(props) {
                             <Grid item xs={10} sm={5} marginTop="10px" marginBottom="10px">
                                 <TextField sx={{width: "95%"}} 
                                     id="dealer_input_1" 
-                                    value="Perez"
+                                    value={loadedLastName}
                                     label="Apellido" 
                                     variant="outlined" 
-                                    disabled/>
+                                    error={loadedLastName !== 'Perez'}
+                                    onChange={(e) => {
+                                      setLoadedLastName(e.target.value);
+                                    }}
+                                    helperText={(loadedLastName !== 'Perez')?"Valor Incorrecto":''}/>
                             </Grid>
                             <Grid item xs={10} sm={5} marginTop="10px" marginBottom="10px">
                                 <TextField sx={{width: "95%"}} 
                                     id="dni_input_1" 
-                                    value="67890544"
-                                    label="DNI" 
-                                    variant="outlined" 
-                                    disabled/>
-                            </Grid>
-                            <Grid item xs={10} sm={5} marginTop="10px" marginBottom="10px">
-                                <TextField sx={{width: "95%"}} 
-                                    id="monto_input_1" 
-                                    value="S/. 4,500.00"
-                                    label="Monto Mensual" 
-                                    variant="outlined" 
-                                    disabled/>
+                                    value={loadedDni}
+                                    label="DNI"
+                                    error={loadedDni !== '47293094'}
+                                    onChange={(e) => {
+                                      setLoadedDni(e.target.value);
+                                      if (e.target.value == '47293094')
+                                        setErrorCount(0)
+                                    }}
+                                    helperText={(loadedDni !== '47293094')?"Valor Incorrecto": ''}
+                                    variant="outlined"/>
                             </Grid>
                         </Grid>
                       </Box>
