@@ -1,15 +1,14 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
-import Fade from '@mui/material/Fade';
 import Slide from '@mui/material/Slide';
-import Grow from '@mui/material/Grow';
-import CellHomeBkgImg from '../../static/bbva/cell-home-bkg-800x450.jpg';
+import CellHomeBkgImg from '../../static/bbva/cell-home-bkg-720x405.jpg';
+//import CellHomeBkgImg from '../../static/bbva/cell-home-bkg-800x450.jpg';
+//import CellHomeBkgImg from '../../static/bbva/cell-home-bkg-750x422.jpg';
 import { Alert } from '@mui/material';
 
-function SlideTransition(props) {
-    return <Slide {...props} direction="up" />;
-  }
+const HEIGHT_VIEWPORT = '720px';
+//const HEIGHT_VIEWPORT = '800px';
+//const HEIGHT_VIEWPORT = '750px';
 
 function CellPhone(props) {
 
@@ -35,7 +34,7 @@ function CellPhone(props) {
             backgroundImage: `url(${CellHomeBkgImg})`, 
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center center',
-            height:'800px' }}>
+            height: HEIGHT_VIEWPORT }}>
       </div>
         <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal : 'left' }}
