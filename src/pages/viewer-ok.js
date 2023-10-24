@@ -6,15 +6,13 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { grey } from '@mui/material/colors';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import BBVASvgImg from '../components/bbva/icons/bbvaIcon';
-import { bbvaPrimaryColor, drawerWidth } from '../components/bbva/constants';
-import { AppBar, Divider, Grid, IconButton, Stack, Toolbar } from '@mui/material';
+import { bbvaPrimaryColor } from '../components/bbva/constants';
+import { AppBar, Divider, Grid, Stack, Toolbar } from '@mui/material';
 import { Document, Page  } from "react-pdf/dist/esm/entry.webpack";
-import MenuIcon from '@mui/icons-material/Menu';
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import TextField from '@mui/material/TextField/TextField';
 
@@ -48,8 +46,7 @@ function SwipeableEdgeDrawer(props) {
   // This is used only for the example
   const container = windowRef !== undefined ? () => windowRef().document.body : undefined;
 
-  const handleDrawerToggle = () => {
-  };
+
 
   const onAction = () => {
     /*
@@ -89,152 +86,153 @@ function SwipeableEdgeDrawer(props) {
             </Stack>
             </Toolbar>
         </AppBar>
-        <Box marginTop={'65px'}>
-            <Stack spacing={3} direction="row" sx={{marginTop: '10px',marginBottom: '10px', justifyContent: 'center'}}>
-                <Button variant="outlined" onClick={toggleDrawer(true)}>Resultados</Button>
-                <Button variant="outlined" onClick={onAction} color="success">Verificar</Button>
-                <Button variant="outlined" onClick={onAction} color="error">Rechazar</Button>
-            </Stack >
-            <Box display="flex" justifyContent="center">
-              <Document file={'/bbva/boleta_demo.pdf'}>
-                <Page height="760" pageNumber={1} scale={2.5}></Page>
-              </Document>
-            </Box>
-            <SwipeableDrawer
-                container={container}
-                anchor="bottom"
-                open={open}
-                onClose={toggleDrawer(false)}
-                onOpen={toggleDrawer(true)}
-                swipeAreaWidth={drawerBleeding}
-                disableSwipeToOpen={false}
-                ModalProps={{
-                keepMounted: true,
-                }}
-            >
-                <StyledBox
-                sx={{
-                    position: 'absolute',
-                    top: -drawerBleeding,
-                    borderTopLeftRadius: 8,
-                    borderTopRightRadius: 8,
-                    visibility: 'visible',
-                    right: 0,
-                    left: 0,
-                }}
-                >
-                <Puller />
-                <Typography sx={{ p: 2, color: 'text.secondary' }}>0 errores</Typography>
-                </StyledBox>
-                <StyledBox
-                sx={{
-                    px: 2,
-                    pb: 2,
-                    height: '100%',
-                    overflow: 'auto',
-                    display:'flex',
-                    justifyContent:'center'
-                }}
-                >
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <div>
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        width: 'fit-content',
-                        borderRadius: 1,
-                        bgcolor: 'background.paper',
-                        color: 'text.secondary',
-                        '& svg': {
-                          m: 1.5,
-                        },
-                        '& hr': {
-                          mx: 0.5,
-                        },
-                      }}
-                    >
-                      <Box sx={{ flexGrow: 1 }}>
-                        <Typography variant='h5'>Valores Esperados</Typography>
-                        <Grid container spacing={1}>
-                            <Grid item xs={10} sm={5} marginTop="10px" marginBottom="10px">
-                                <TextField sx={{width: "95%"}} 
-                                    id="vin_input" 
-                                    value="Carlos"
-                                    label="Nombre" 
-                                    variant="outlined"
-                                    disabled/>
-                            </Grid>
-                            <Grid item xs={10} sm={5} marginTop="10px" marginBottom="10px">
-                                <TextField sx={{width: "95%"}} 
-                                    id="dealer_input" 
-                                    value="Perez"
-                                    label="Apellido" 
-                                    variant="outlined" 
-                                    disabled/>
-                            </Grid>
-                            <Grid item xs={10} sm={5} marginTop="10px" marginBottom="10px">
-                                <TextField sx={{width: "95%"}} 
-                                    id="dni_input" 
-                                    value="67890544"
-                                    label="DNI" 
-                                    variant="outlined" 
-                                    disabled/>
-                            </Grid>
-                            <Grid item xs={10} sm={5} marginTop="10px" marginBottom="10px">
-                                <TextField sx={{width: "95%"}} 
-                                    id="monto_input" 
-                                    value="S/. 4,500.00"
-                                    label="Monto Mensual" 
-                                    variant="outlined" 
-                                    disabled/>
-                            </Grid>
-                        </Grid>
+          <Box marginTop={'65px'}>
+              <Stack spacing={3} direction="row" sx={{marginTop: '10px',marginBottom: '10px', justifyContent: 'center'}}>
+                  <Button variant="outlined" onClick={toggleDrawer(true)}>Resultados</Button>
+                  <Button variant="outlined" onClick={onAction}color="success">Verificar</Button>
+                  <Button variant="outlined" onClick={onAction} color="error">Rechazar</Button>
+              </Stack >
+              <Box display="flex" justifyContent="center">
+                <Document file={'/bbva/boleta_demo.pdf'}>
+                  <Page height="760" pageNumber={1} scale={2.5}></Page>
+                </Document>
+              </Box>
+              <SwipeableDrawer
+                  container={container}
+                  anchor="bottom"
+                  open={open}
+                  onClose={toggleDrawer(false)}
+                  onOpen={toggleDrawer(true)}
+                  swipeAreaWidth={drawerBleeding}
+                  disableSwipeToOpen={false}
+                  ModalProps={{
+                  keepMounted: true,
+                  }}
+              >
+                  <StyledBox
+                  sx={{
+                      position: 'absolute',
+                      top: -drawerBleeding,
+                      borderTopLeftRadius: 8,
+                      borderTopRightRadius: 8,
+                      visibility: 'visible',
+                      right: 0,
+                      left: 0,
+                  }}
+                  >
+                  <Puller />
+                  <Typography sx={{ p: 2, color: 'text.secondary' }}>0 errores</Typography>
+                  </StyledBox>
+                  <StyledBox
+                  sx={{
+                      px: 2,
+                      pb: 2,
+                      height: '100%',
+                      overflow: 'auto',
+                      display:'flex',
+                      justifyContent:'center'
+                  }}
+                  >
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <div>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          width: 'fit-content',
+                          borderRadius: 1,
+                          bgcolor: 'background.paper',
+                          color: 'text.secondary',
+                          '& svg': {
+                            m: 1.5,
+                          },
+                          '& hr': {
+                            mx: 0.5,
+                          },
+                        }}
+                      >
+                        <Box sx={{ flexGrow: 1 }}>
+                          <Typography variant='h5'>Valores Esperados</Typography>
+                          <Grid container spacing={1}>
+                              <Grid item xs={10} sm={5} marginTop="10px" marginBottom="10px">
+                                  <TextField sx={{width: "95%"}} 
+                                      id="vin_input" 
+                                      value="Juan"
+                                      label="Nombre" 
+                                      variant="outlined"
+                                      disabled/>
+                              </Grid>
+                              <Grid item xs={10} sm={5} marginTop="10px" marginBottom="10px">
+                                  <TextField sx={{width: "95%"}} 
+                                      id="dealer_input" 
+                                      value="Perez"
+                                      label="Apellido" 
+                                      variant="outlined" 
+                                      disabled/>
+                              </Grid>
+                              <Grid item xs={10} sm={5} marginTop="10px" marginBottom="10px">
+                                  <TextField sx={{width: "95%"}} 
+                                      id="dni_input" 
+                                      value="47293094"
+                                      label="DNI" 
+                                      variant="outlined" 
+                                      disabled/>
+                              </Grid>
+                              <Grid item xs={10} sm={5} marginTop="10px" marginBottom="10px">
+                                  <TextField sx={{width: "95%"}} 
+                                      id="monto_input" 
+                                      value="S/. 4,500.00"
+                                      label="Monto Mensual" 
+                                      variant="outlined" 
+                                      disabled/>
+                              </Grid>
+                          </Grid>
+                        </Box>
+                        <Divider orientation="vertical" flexItem />
+                        <Box sx={{ flexGrow: 1 }}>
+                          <Typography variant='h5'>Valores Leidos</Typography>
+                          <Grid container spacing={1}>
+                              <Grid item xs={10} sm={5} marginTop="10px" marginBottom="10px">
+                                  <TextField sx={{width: "95%"}} 
+                                      id="vin_input_1" 
+                                      value="Juan"
+                                      label="Nombre" 
+                                      variant="outlined"
+                                      disabled/>
+                              </Grid>
+                              <Grid item xs={10} sm={5} marginTop="10px" marginBottom="10px">
+                                  <TextField sx={{width: "95%"}} 
+                                      id="dealer_input_1" 
+                                      value="Perez"
+                                      label="Apellido" 
+                                      variant="outlined" 
+                                      disabled/>
+                              </Grid>
+                              <Grid item xs={10} sm={5} marginTop="10px" marginBottom="10px">
+                                  <TextField sx={{width: "95%"}} 
+                                      id="dni_input_1" 
+                                      value="47293094"
+                                      label="DNI" 
+                                      variant="outlined" 
+                                      disabled/>
+                              </Grid>
+                              <Grid item xs={10} sm={5} marginTop="10px" marginBottom="10px">
+                                  <TextField sx={{width: "95%"}} 
+                                      id="monto_input_1" 
+                                      value="S/. 4,500.00"
+                                      label="Monto Mensual" 
+                                      variant="outlined" 
+                                      disabled/>
+                              </Grid>
+                          </Grid>
+                        </Box>
                       </Box>
-                      <Divider orientation="vertical" flexItem />
-                      <Box sx={{ flexGrow: 1 }}>
-                        <Typography variant='h5'>Valores Leidos</Typography>
-                        <Grid container spacing={1}>
-                            <Grid item xs={10} sm={5} marginTop="10px" marginBottom="10px">
-                                <TextField sx={{width: "95%"}} 
-                                    id="vin_input_1" 
-                                    value="Carlos"
-                                    label="Nombre" 
-                                    variant="outlined"
-                                    disabled/>
-                            </Grid>
-                            <Grid item xs={10} sm={5} marginTop="10px" marginBottom="10px">
-                                <TextField sx={{width: "95%"}} 
-                                    id="dealer_input_1" 
-                                    value="Perez"
-                                    label="Apellido" 
-                                    variant="outlined" 
-                                    disabled/>
-                            </Grid>
-                            <Grid item xs={10} sm={5} marginTop="10px" marginBottom="10px">
-                                <TextField sx={{width: "95%"}} 
-                                    id="dni_input_1" 
-                                    value="67890544"
-                                    label="DNI" 
-                                    variant="outlined" 
-                                    disabled/>
-                            </Grid>
-                            <Grid item xs={10} sm={5} marginTop="10px" marginBottom="10px">
-                                <TextField sx={{width: "95%"}} 
-                                    id="monto_input_1" 
-                                    value="S/. 4,500.00"
-                                    label="Monto Mensual" 
-                                    variant="outlined" 
-                                    disabled/>
-                            </Grid>
-                        </Grid>
-                      </Box>
-                    </Box>
-                  </div>
-                  </LocalizationProvider>
-                </StyledBox>
-            </SwipeableDrawer>
-        </Box>
+                    </div>
+                    </LocalizationProvider>
+                  </StyledBox>
+              </SwipeableDrawer>
+          </Box>
+
       </Box>
 
 

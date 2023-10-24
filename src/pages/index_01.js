@@ -20,9 +20,9 @@ import BBVAMainPage from '../components/bbva/main/mainPage';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import SavingsIcon from '@mui/icons-material/Savings';
-import CardOfferPage from '../components/bbva/offer/cardOfferPage';
+import LoanOfferPage from '../components/bbva/offer/loanOfferPage';
 import { bbvaPrimaryColor, drawerWidth } from '../components/bbva/constants';
-import BBVACardOfferImg from '../../static/bbva/bbva-card-offer.jpg';
+import BBVACredHipoImg from '../../static/bbva/bbva-cred-hipo.jpg';
 
 
 function BBVAResponsiveDrawer(props) {
@@ -135,11 +135,10 @@ function BBVAResponsiveDrawer(props) {
         </Drawer>
       </Box>
       {(currentPage === 'main') && <BBVAMainPage navigateTo={navigateTo} 
-                                                offerTitle={'Obtén tu Tarjeta de Crédito BBVA y recibe hasta S/240'} 
-                                                offerImg={BBVACardOfferImg}
-                                                offerLink={'cardOffer'}
-                                    />}
-      {(currentPage === 'cardOffer') && <CardOfferPage navigateTo={navigateTo}/>}
+                                          offerTitle={'Obtén tu Crédito Hipotecario BBVA'} 
+                                          offerImg={BBVACredHipoImg}
+                                          offerLink={'loanOffer'}/>}
+      {(currentPage === 'loanOffer') && <LoanOfferPage navigateTo={navigateTo}/>}
     </Box>
   );
 }

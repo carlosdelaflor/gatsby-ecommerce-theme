@@ -2,7 +2,7 @@ import * as React from 'react';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import SavingsIcon from '@mui/icons-material/Savings';
-import { bbvaPrimaryColor, drawerWidth } from '../constants';
+import { bbvaPrimaryColor } from '../constants';
 import { Avatar, Box, Stack, Typography } from '@mui/material';
 
 const MenuAvatar = ({avatar, label, navigateTo}) => {
@@ -24,17 +24,17 @@ const SimpleAvatarMenuBar = ({navigateTo}) => {
           <Stack direction="row" display={'flex'} justifyContent={'space-between'} >
             <MenuAvatar 
               avatar={<CreditCardIcon sx={{ color: bbvaPrimaryColor }} />} 
-              navigateTo={()=>navigateTo('ofertas')}
+              navigateTo={()=>navigateTo('cardOffer')}
               label={'Tarjetas'}
             />
             <MenuAvatar 
               avatar={<MonetizationOnIcon sx={{ color: bbvaPrimaryColor }}/>}
-              navigateTo={()=>navigateTo('ofertas')} 
+              navigateTo={()=>navigateTo('cardOffer')} 
               label={'Inversiones'}
             />
             <MenuAvatar 
               avatar={<SavingsIcon sx={{ color: bbvaPrimaryColor }}/>} 
-              navigateTo={()=>navigateTo('ofertas')}
+              navigateTo={()=>navigateTo('cardOffer')}
               label={'Ahorros'}
             />
           </Stack>

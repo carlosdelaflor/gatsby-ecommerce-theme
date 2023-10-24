@@ -1,11 +1,9 @@
 import * as React from 'react';
-import { Autocomplete, Box, Button, Drawer, Grid, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
-import { makeStyles } from '@mui/styles';
+import { Autocomplete, Box, Button, Drawer, Grid, IconButton, TextField, Typography } from "@mui/material";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { DataGrid, GridRowsProp, GridColDef, GridCloseIcon } from '@mui/x-data-grid';
-import dayjs from 'dayjs';
+import { DataGrid, GridCloseIcon } from '@mui/x-data-grid';
 import axios from 'axios';
 
 const mockServerURL = "https://a9fcd5e5-073a-4af9-aa57-b5ed72cf0bb6.mock.pstmn.io/";
@@ -17,15 +15,6 @@ const AUCTION_LOCATIONS = [
     { label: 'Auto Auction', zip: 1592 , value: '1592 - Z66 Auto Auction'},
     { label: 'Honda Auction', zip: 1765 , value: '1765 - P56 Honda Auction'},
 ];
-
-const useTableStyles = makeStyles({
-    table: {
-      width: 400,
-      /*"& .MuiTableCell-root": {
-        border: '1px solid black'
-      }*/
-    }
-  });
 
 const DetailInfoGrid = (props) => {
     const rows = [];
@@ -65,37 +54,6 @@ const DetailInfoGrid = (props) => {
     )
 }
 
-const DetailInfoTable = (props) => {
-    const classes = useTableStyles();
-    const rows = [];
-    Object.entries(props.data).forEach(([key, value]) => {
-        rows.push({'key': key, 'value': value});
-    });
-
-    return (
-            <TableContainer border={1}>
-            <Table className={classes.table} aria-label="simple table">
-            <TableHead>
-                    <TableRow>
-                        <TableCell>Attribute</TableCell>
-                        <TableCell>Value</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {rows.map((row) => (
-                        <TableRow
-                            key={row.key}
-                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            >
-                        <TableCell align="right">{row.key}</TableCell>
-                        <TableCell align="right">{row.value}</TableCell>
-                        </TableRow>
-                    ))}               
-                </TableBody>
-                </Table>
-            </TableContainer>
-    );
-}
 
 const VehicleDetail = (props) => {
     const paymentInfo = props.details.paymentInfo;
@@ -266,7 +224,7 @@ const SearchPanel = (props) => {
     }
     const onRowClicked = (params, event) => {
         const rowId = params.row.id;
-        axiosMockServerclient.get('transactions/'+ params.row.id, {
+        axiosMockServerclient.get('transactions/'+ rowId, {
             params: {
             }
           })

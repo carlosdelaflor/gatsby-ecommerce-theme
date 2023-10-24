@@ -35,7 +35,7 @@ const EgresosBorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
     },
   }));
 
-const MainPage = ({navigateTo}) => {
+const MainPage = ({navigateTo, offerTitle, offerImg, offerLink}) => {
     return (
         <Box
         component="main"
@@ -64,11 +64,11 @@ const MainPage = ({navigateTo}) => {
         </Box>
 
         <Box paddingTop={'25px'} width={'100%'} justifyContent={'center'} display={'flex'}>
-          <OfferCard>
+          <OfferCard img={offerImg}>
             <Typography color="text.secondary" component="div">
-              Obtén tu Tarjeta de Crédito BBVA y recibe hasta S/240
+              {offerTitle}
             </Typography>
-            <Typography color={'#0b65e6'} fontWeight={'bold'} component="a" onClick={()=>navigateTo('ofertas')}>
+            <Typography color={'#0b65e6'} fontWeight={'bold'} component="a" onClick={()=>navigateTo(offerLink)}>
                   Quiero saber más
             </Typography>
           </OfferCard>

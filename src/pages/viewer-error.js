@@ -6,18 +6,15 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { grey } from '@mui/material/colors';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import BBVASvgImg from '../components/bbva/icons/bbvaIcon';
-import { bbvaPrimaryColor, drawerWidth } from '../components/bbva/constants';
-import { AppBar, Divider, Grid, IconButton, Stack, Toolbar } from '@mui/material';
+import { bbvaPrimaryColor } from '../components/bbva/constants';
+import { AppBar, Divider, Grid, Stack, Toolbar } from '@mui/material';
 import { Document, Page  } from "react-pdf/dist/esm/entry.webpack";
-import MenuIcon from '@mui/icons-material/Menu';
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import TextField from '@mui/material/TextField/TextField';
-
 
 const drawerBleeding = 56;
 
@@ -50,9 +47,6 @@ function SwipeableEdgeDrawer(props) {
 
   // This is used only for the example
   const container = windowRef !== undefined ? () => windowRef().document.body : undefined;
-
-  const handleDrawerToggle = () => {
-  };
 
   const onAction = () => {
     /*
@@ -99,7 +93,7 @@ function SwipeableEdgeDrawer(props) {
                 <Button variant="outlined" onClick={onAction} color="error">Rechazar</Button>
             </Stack >
             <Box display="flex" justifyContent="center">
-              <Document file={'/bbva/dni_demo.pdf'}>
+              <Document file={'/bbva/dni_demo-ed.pdf'}>
                 <Page height="760" pageNumber={1}></Page>
               </Document>
             </Box>
